@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        function phoneBook(command) {
+
+            let onePartOfWord = command.split(' ')[0];
+
+
+            if (onePartOfWord === "ADD") {
+                let name = command.split(' ')[1];
+
+                let phones = command.split(' ')[2];
+
+                return add(name, phones);
+
+            } else if (onePartOfWord === "SHOW") {
+                return show();
+            } else if (onePartOfWord === "REMOVE_PHONE") {
+                let nameRemove = command.split(' ')[1];
+
+                return remove(nameRemove);
+            }
+
+    
+
+        };
+
+        function add(name, phones) {
+
+            let arrayPhone = phones.split(','),
+
+                numbersPhone;
+
+            if (phoneBook.hasOwnProperty(name)) {
+
+                numbersPhone = phoneBook[name].concat(arrayPhone);
+
+                phoneBook[name] = numbersPhone;
+
+            } else {
+
+                phoneBook[name] = arrayPhone;
+
+            }
+
+        }
+
+        function remove(nameRemove) {
+
+            for (let key in phoneBook) {
+
+                if (phoneBook[key].includes(nameRemove)) {
+
+                    if (phoneBook[key].length > 1) {
+
+                        phoneBook[key].splice((phoneBook[key].indexOf(nameRemove)), 1);
+
+                    } else {
+
+                        delete phoneBook[key];
+
+                    }
+
+                    return true;
+
+                }
+
+            }
+
+            return false;
+
+        }
+
+        function show() {
+
+            let arr = [];
+
+            let keys = Object.keys(phoneBook);
+
+            keys.sort();
+
+            if (keys.length > 0) {
+
+                for (let i = 0; i < keys.length; i++) {
+
+                    resultString = keys[i] + ': ' + phoneBook[keys[i]].join(', ');
+
+                    arr.push(resultString);
+
+                }
+
+                return arr;
+
+            }
+
+            else return arr;
+
+        }
+
+
+
+        phoneBook('ADD Ivan 555-10-01,555-10-03');
+
+        phoneBook('ADD Ivan 555-10-02');
+
+        console.info(phoneBook('SHOW'));
+
+        // Вывод:
+
+        // ["Ivan: 555-10-01, 555-10-03, 555-10-02"]
+
+        phoneBook('REMOVE_PHONE 555-10-03');
+
+        phoneBook('ADD Alex 555-20-01');
+
+        phoneBook('SHOW');
+
+        // Вывод:
+
+        // ["Alex: 555-20-01", "Ivan: 555-10-01, 555-10-02"]
+
+        phoneBook('REMOVE_PHONE 555-20-01');
+
+        phoneBook('SHOW');
+
+// Вывод:
+
+// ["Ivan: 555-10-01, 555-10-02"]a
+    </script>
+</body>
+
+</html>
